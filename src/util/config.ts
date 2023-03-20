@@ -1,0 +1,36 @@
+import { Configuration } from 'webpack'
+import { getCwdPath } from './index'
+
+interface IFeCliConfig extends Omit<Configuration, 'cache'> {
+  entry?: {     //入口
+    app?: string  
+  }
+  output?: {
+    chunkFilename: string
+    filename: string,
+    path: string
+  }
+  template?: string,
+  injectionEnvironment?: { [key: string]: string }
+  publicPath?: string
+  cssLoader?: any
+  plugins?: any;
+  devServer?: DevServer
+}
+
+const tryLoadConfig = (fileName: string) => {
+  try {
+    return require(getCwdPath(fileName));
+  } catch (e) {
+    return null;
+  }
+}
+
+export const loadConfig = () => {
+  let config: IFeCliConfig;
+  config = tryLoadConfig('boty.config.json');
+  if (!config) {
+    config = tryLoadConfig('boty.config.js');
+  }
+  return config;
+}
