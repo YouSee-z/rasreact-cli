@@ -73,7 +73,7 @@ export const getTplList = () => {
     loggerWarring('No template! Please add template first!')
     process.exit(1)
   } catch (error) {
-    loggerError(error)
+    loggerError(error as string)
   }
 }
 
